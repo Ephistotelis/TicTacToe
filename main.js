@@ -38,46 +38,6 @@ function startGame(player) {
     showCurrentPlayer();
 }
 
-function toggleContent() {
-    let table = document.getElementById('table');
-    let showplayer = document.getElementById('showCurPlayer');
-    let selectPlayer = document.getElementById('selectPlayer');
-    showplayer.classList.remove("d-none")
-    table.classList.remove("d-none")
-    selectPlayer.classList.add("d-none")
-}
-
-function setMove(row, column) {
-    gamefield[row][column] = currentPlayer;
-    checkWinner();
-}
-
-function playerMove(field, row, column) {
-    let selectedField = document.getElementById(`field${field}`);
-    if (selectedField.innerHTML) {
-        alert("Das Feld ist bereits ausgefüllt, wähle ein Anderes!");
-        return
-    }
-    selectedField.innerHTML = `<img src="${playerLogo[currentPlayer-1]}" alt="">`
-    selectedField.classList.add(`playerColor${currentPlayer}`)
-    setMove(row, column)
-    setCurrentPlayer();
-    showCurrentPlayer();
-}
-
-function setCurrentPlayer() {
-    if (currentPlayer == 1) {
-        currentPlayer++
-    } else {
-        currentPlayer--
-    }
-}
-
-function showCurrentPlayer() {
-    let showPlayer = document.getElementById('showPlayer')
-    showPlayer.innerHTML = currentPlayer;
-}
-
 function resetGame() {
     resetGameClasslist();
     gamedraw = 0;
@@ -111,26 +71,45 @@ function resetGameClasslist() {
     selectPlayer.classList.remove("d-none")
 }
 
-function templateGame() {
-    return `
-    <table id="table" class="d-none">
-    <tr>
-        <td id="field1" onclick="playerMove(1,0,0)"></td>
-        <td id="field2" onclick="playerMove(2,0,1)"></td>
-        <td id="field3" onclick="playerMove(3,0,2)"></td>
-    </tr>
-    <tr>
-        <td id="field4" onclick="playerMove(4,1,0)"></td>
-        <td id="field5" onclick="playerMove(5,1,1)"></td>
-        <td id="field6" onclick="playerMove(6,1,2)"></td>
-    </tr>
-    <tr>
-        <td id="field7" onclick="playerMove(7,2,0)"></td>
-        <td id="field8" onclick="playerMove(8,2,1)"></td>
-        <td id="field9" onclick="playerMove(9,2,2)"></td>
-    </tr>
-</table>
-    `
+function playerMove(field, row, column) {
+    let selectedField = document.getElementById(`field${field}`);
+    if (selectedField.innerHTML) {
+        alert("Das Feld ist bereits ausgefüllt, wähle ein Anderes!");
+        return
+    }
+    selectedField.innerHTML = `<img src="${playerLogo[currentPlayer-1]}" alt="">`
+    selectedField.classList.add(`playerColor${currentPlayer}`)
+    setMove(row, column)
+    setCurrentPlayer();
+    showCurrentPlayer();
+}
+
+function setMove(row, column) {
+    gamefield[row][column] = currentPlayer;
+    checkWinner();
+}
+
+function setCurrentPlayer() {
+    if (currentPlayer == 1) {
+        currentPlayer++
+    } else {
+        currentPlayer--
+    }
+}
+
+function toggleContent() {
+    let table = document.getElementById('table');
+    let showplayer = document.getElementById('showCurPlayer');
+    let selectPlayer = document.getElementById('selectPlayer');
+    showplayer.classList.remove("d-none")
+    table.classList.remove("d-none")
+    selectPlayer.classList.add("d-none")
+}
+
+
+function showCurrentPlayer() {
+    let showPlayer = document.getElementById('showPlayer')
+    showPlayer.innerHTML = currentPlayer;
 }
 
 function gameEnded(winner) {
@@ -149,78 +128,6 @@ function gameEnded(winner) {
         let field = document.getElementById(`field${i}`);
         field.classList.add("pe-none")
     }
-}
-
-function checkWinner() {
-    if (gamefield[0][0] == gamefield[0][1] && gamefield[0][1] == gamefield[0][2] && gamefield[0][2] == gamefield[0][0]) {
-        let winner = gamefield[0][0]
-        document.getElementById('field1').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field2').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field3').classList.add(`playerwin${currentPlayer}`)
-        gameEnded(winner);
-        return
-    }
-    if (gamefield[1][0] == gamefield[1][1] && gamefield[1][1] == gamefield[1][2] && gamefield[1][2] == gamefield[1][0]) {
-        let winner = gamefield[1][0]
-        document.getElementById('field4').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field5').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field6').classList.add(`playerwin${currentPlayer}`)
-        gameEnded(winner);
-        return
-    }
-    if (gamefield[2][0] == gamefield[2][1] && gamefield[2][1] == gamefield[2][2] && gamefield[2][2] == gamefield[2][0]) {
-        let winner = gamefield[2][0]
-        document.getElementById('field7').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field8').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field9').classList.add(`playerwin${currentPlayer}`)
-        gameEnded(winner);
-        return
-    }
-    if (gamefield[0][0] == gamefield[1][0] && gamefield[1][0] == gamefield[2][0] && gamefield[2][0] == gamefield[0][0]) {
-        let winner = gamefield[0][0]
-        document.getElementById('field1').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field4').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field7').classList.add(`playerwin${currentPlayer}`)
-        gameEnded(winner);
-        return
-    }
-    if (gamefield[0][1] == gamefield[1][1] && gamefield[1][1] == gamefield[2][1] && gamefield[2][1] == gamefield[0][1]) {
-        let winner = gamefield[0][1]
-        document.getElementById('field2').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field5').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field8').classList.add(`playerwin${currentPlayer}`)
-        gameEnded(winner);
-        return
-    }
-    if (gamefield[0][2] == gamefield[1][2] && gamefield[1][2] == gamefield[2][2] && gamefield[2][2] == gamefield[0][2]) {
-        let winner = gamefield[0][2]
-        document.getElementById('field3').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field6').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field9').classList.add(`playerwin${currentPlayer}`)
-        gameEnded(winner);
-        return
-    }
-    if (gamefield[0][0] == gamefield[1][1] && gamefield[1][1] == gamefield[2][2] && gamefield[2][2] == gamefield[0][0]) {
-        let winner = gamefield[0][0]
-        document.getElementById('field1').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field5').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field9').classList.add(`playerwin${currentPlayer}`)
-        gameEnded(winner);
-        return
-    }
-    if (gamefield[2][0] == gamefield[1][1] && gamefield[1][1] == gamefield[0][2] && gamefield[0][2] == gamefield[2][0]) {
-        let winner = gamefield[2][0]
-        document.getElementById('field7').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field5').classList.add(`playerwin${currentPlayer}`)
-        document.getElementById('field3').classList.add(`playerwin${currentPlayer}`)
-        gameEnded(winner);
-        return
-    }
-    checkDraw();
-    if (gamedraw == 45) {
-        gamedrawEnded();
-    }
-    return
 }
 
 function gamedrawEnded() {
@@ -247,4 +154,29 @@ function checkDraw() {
 
     }
     console.log(gamedraw) //just to test the function, deleted soon
+}
+// Templates
+
+
+
+function templateGame() {
+    return `
+    <table id="table" class="d-none">
+    <tr>
+        <td id="field1" onclick="playerMove(1,0,0)"></td>
+        <td id="field2" onclick="playerMove(2,0,1)"></td>
+        <td id="field3" onclick="playerMove(3,0,2)"></td>
+    </tr>
+    <tr>
+        <td id="field4" onclick="playerMove(4,1,0)"></td>
+        <td id="field5" onclick="playerMove(5,1,1)"></td>
+        <td id="field6" onclick="playerMove(6,1,2)"></td>
+    </tr>
+    <tr>
+        <td id="field7" onclick="playerMove(7,2,0)"></td>
+        <td id="field8" onclick="playerMove(8,2,1)"></td>
+        <td id="field9" onclick="playerMove(9,2,2)"></td>
+    </tr>
+</table>
+    `
 }
