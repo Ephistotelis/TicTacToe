@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+    <title>Tic Tac Toe</title>
+</head>
+
+<body onload="showCurrentPlayer()">
+    <div class="mainContent">
+        <div>
+            <h1>Player <b id="showPlayer"></b></h1>
+        </div>
+        <table>
+            <tr>
+                <td id="field1" onclick="setMove(0, 0), playerMove(1)"></td>
+                <td id="field2" onclick="setMove(0, 1), playerMove(2)"></td>
+                <td id="field3" onclick="setMove(0, 2), playerMove(3)"></td>
+            </tr>
+            <tr>
+                <td id="field4" onclick="setMove(1, 0), playerMove(4)"></td>
+                <td id="field5" onclick="setMove(1, 1), playerMove(5)"></td>
+                <td id="field6" onclick="setMove(1, 2), playerMove(6)"></td>
+            </tr>
+            <tr>
+                <td id="field7" onclick="setMove(2, 0), playerMove(7)"></td>
+                <td id="field8" onclick="setMove(2, 1), playerMove(8)"></td>
+                <td id="field9" onclick="setMove(2, 2), playerMove(9)"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
