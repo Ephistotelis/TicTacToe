@@ -22,8 +22,11 @@ let gamefield = [
 function loadGame() {
     let selectplayer = document.getElementById('selectPlayer');
     selectplayer.innerHTML = ``;
-    selectplayer.innerHTML = `<button onclick="startGame(1)">Player 1</button>
-    <button onclick="startGame(2)">Player 2</button>`
+    selectplayer.innerHTML = `<h2>Welcher Spieler soll anfangen?</h2>
+    <div class="chooseplayer">
+    <button onclick="startGame(1)">Player 1</button>
+        <button onclick="startGame(2)">Player 2</button>
+    </div>`
     let gamefieldcontent = document.getElementById('gamefield');
     gamefieldcontent.innerHTML = ''
     gamefieldcontent.innerHTML = templateGame();
@@ -101,6 +104,8 @@ function resetGame() {
 function resetGameClasslist() {
     let showplayer = document.getElementById('showCurPlayer');
     let selectPlayer = document.getElementById('selectPlayer');
+    let reset = document.getElementById('resetGameButton');
+    reset.innerHTML = '';
     showplayer.classList.add("d-none")
     showplayer.innerHTML = `<h1>Player <b id="showPlayer"></b></h1>`;
     selectPlayer.classList.remove("d-none")
@@ -131,10 +136,14 @@ function templateGame() {
 function gameEnded(winner) {
     if (winner == 1) {
         let winnertext = document.getElementById('showCurPlayer');
+        let reset = document.getElementById('resetGameButton');
         winnertext.innerHTML = `<h1>Player <b class="player1Text">${winner}</b> hat gewonnen!</h1>`;
+        reset.innerHTML = `<button onclick="resetGame()">Reset Game</button>`
     } else {
         let winnertext = document.getElementById('showCurPlayer');
+        let reset = document.getElementById('resetGameButton');
         winnertext.innerHTML = `<h1>Player <b class="player2Text">${winner}</b> hat gewonnen!</h1>`;
+        reset.innerHTML = `<button onclick="resetGame()">Reset Game</button>`
     }
     for (let i = 1; i < 10; i++) {
         let field = document.getElementById(`field${i}`);
@@ -216,7 +225,9 @@ function checkWinner() {
 
 function gamedrawEnded() {
     let winnertext = document.getElementById('showCurPlayer');
+    let reset = document.getElementById('resetGameButton');
     winnertext.innerHTML = `<h1>Unentschieden! Keiner hat gewonnen!</h1>`;
+    reset.innerHTML = `<button onclick="resetGame()">Reset Game</button>`
     for (let i = 1; i < 10; i++) {
         let field = document.getElementById(`field${i}`);
         field.classList.add("pe-none")

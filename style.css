@@ -39,10 +39,15 @@
     pointer-events: none;
 }
 
+.chooseplayer {
+    display: flex;
+    justify-content: center;
+}
+
 .selectPlayer {
     position: absolute;
-    top: 50%;
-    right: 50%;
+    top: 42%;
+    right: 44%;
 }
 
 .mainContent {
