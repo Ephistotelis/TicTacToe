@@ -1,8 +1,36 @@
 :root {
     --bg1: #;
     --bghover: rgb(226, 226, 226);
-    --player1: blue;
-    --player2: red;
+    --player1bg: rgb(0, 0, 255, 0.2);
+    --player2bg: rgb(255, 0, 0, 0.2);
+    --playerwin1: rgb(0, 0, 255, 0.8);
+    --playerwin2: rgb(255, 0, 0, 0.8);
+}
+
+.playerColor1 {
+    background-color: var(--player1bg);
+}
+
+.playerColor2 {
+    background-color: var(--player2bg);
+}
+
+.playerwin1 {
+    background-color: var(--playerwin1) !important;
+}
+
+.playerwin2 {
+    background-color: var(--playerwin2) !important;
+}
+
+.d-none {
+    display: none;
+}
+
+.selectPlayer {
+    position: absolute;
+    top: 50%;
+    right: 50%;
 }
 
 .mainContent {
@@ -10,7 +38,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 90vh;
 }
 
 img {
