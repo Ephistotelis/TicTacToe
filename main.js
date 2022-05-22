@@ -1,5 +1,6 @@
 let currentPlayer = 1; // 1 und 2
 let playerLogo = ["img/circle.png", "img/cross.png"] // dafür -1
+let gamedraw = 0; // for draw option if gamedraw == 45 and no other if´s before trigger, its draw
 let gamefield = [
     [
         [],
@@ -48,21 +49,25 @@ function setMove(row, column) {
     checkWinner();
 }
 
-function playerMove(field) {
+function playerMove(field, row, column) {
     let selectedField = document.getElementById(`field${field}`);
-
     if (selectedField.innerHTML) {
         alert("Das Feld ist bereits ausgefüllt, wähle ein Anderes!");
         return
     }
     selectedField.innerHTML = `<img src="${playerLogo[currentPlayer-1]}" alt="">`
     selectedField.classList.add(`playerColor${currentPlayer}`)
+    setMove(row, column)
+    setCurrentPlayer();
+    showCurrentPlayer();
+}
+
+function setCurrentPlayer() {
     if (currentPlayer == 1) {
         currentPlayer++
     } else {
         currentPlayer--
     }
-    showCurrentPlayer();
 }
 
 function showCurrentPlayer() {
@@ -71,11 +76,8 @@ function showCurrentPlayer() {
 }
 
 function resetGame() {
-
-    let showplayer = document.getElementById('showCurPlayer');
-    let selectPlayer = document.getElementById('selectPlayer');
-    showplayer.classList.add("d-none")
-    selectPlayer.classList.remove("d-none")
+    resetGameClasslist();
+    gamedraw = 0;
     gamefield = [
         [
             [],
@@ -96,26 +98,48 @@ function resetGame() {
     loadGame();
 }
 
+function resetGameClasslist() {
+    let showplayer = document.getElementById('showCurPlayer');
+    let selectPlayer = document.getElementById('selectPlayer');
+    showplayer.classList.add("d-none")
+    showplayer.innerHTML = `<h1>Player <b id="showPlayer"></b></h1>`;
+    selectPlayer.classList.remove("d-none")
+}
+
 function templateGame() {
     return `
     <table id="table" class="d-none">
     <tr>
-        <td id="field1" onclick="setMove(0, 0), playerMove(1)"></td>
-        <td id="field2" onclick="setMove(0, 1), playerMove(2)"></td>
-        <td id="field3" onclick="setMove(0, 2), playerMove(3)"></td>
+        <td id="field1" onclick="playerMove(1,0,0)"></td>
+        <td id="field2" onclick="playerMove(2,0,1)"></td>
+        <td id="field3" onclick="playerMove(3,0,2)"></td>
     </tr>
     <tr>
-        <td id="field4" onclick="setMove(1, 0), playerMove(4)"></td>
-        <td id="field5" onclick="setMove(1, 1), playerMove(5)"></td>
-        <td id="field6" onclick="setMove(1, 2), playerMove(6)"></td>
+        <td id="field4" onclick="playerMove(4,1,0)"></td>
+        <td id="field5" onclick="playerMove(5,1,1)"></td>
+        <td id="field6" onclick="playerMove(6,1,2)"></td>
     </tr>
     <tr>
-        <td id="field7" onclick="setMove(2, 0), playerMove(7)"></td>
-        <td id="field8" onclick="setMove(2, 1), playerMove(8)"></td>
-        <td id="field9" onclick="setMove(2, 2), playerMove(9)"></td>
+        <td id="field7" onclick="playerMove(7,2,0)"></td>
+        <td id="field8" onclick="playerMove(8,2,1)"></td>
+        <td id="field9" onclick="playerMove(9,2,2)"></td>
     </tr>
 </table>
     `
+}
+
+function gameEnded(winner) {
+    if (winner == 1) {
+        let winnertext = document.getElementById('showCurPlayer');
+        winnertext.innerHTML = `<h1>Player <b class="player1Text">${winner}</b> hat gewonnen!</h1>`;
+    } else {
+        let winnertext = document.getElementById('showCurPlayer');
+        winnertext.innerHTML = `<h1>Player <b class="player2Text">${winner}</b> hat gewonnen!</h1>`;
+    }
+    for (let i = 1; i < 10; i++) {
+        let field = document.getElementById(`field${i}`);
+        field.classList.add("pe-none")
+    }
 }
 
 function checkWinner() {
@@ -124,8 +148,7 @@ function checkWinner() {
         document.getElementById('field1').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field2').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field3').classList.add(`playerwin${currentPlayer}`)
-
-        // winScreen();
+        gameEnded(winner);
         return
     }
     if (gamefield[1][0] == gamefield[1][1] && gamefield[1][1] == gamefield[1][2] && gamefield[1][2] == gamefield[1][0]) {
@@ -133,7 +156,7 @@ function checkWinner() {
         document.getElementById('field4').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field5').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field6').classList.add(`playerwin${currentPlayer}`)
-            // winScreen();
+        gameEnded(winner);
         return
     }
     if (gamefield[2][0] == gamefield[2][1] && gamefield[2][1] == gamefield[2][2] && gamefield[2][2] == gamefield[2][0]) {
@@ -141,7 +164,7 @@ function checkWinner() {
         document.getElementById('field7').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field8').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field9').classList.add(`playerwin${currentPlayer}`)
-            // winScreen();
+        gameEnded(winner);
         return
     }
     if (gamefield[0][0] == gamefield[1][0] && gamefield[1][0] == gamefield[2][0] && gamefield[2][0] == gamefield[0][0]) {
@@ -149,7 +172,7 @@ function checkWinner() {
         document.getElementById('field1').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field4').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field7').classList.add(`playerwin${currentPlayer}`)
-            // winScreen();
+        gameEnded(winner);
         return
     }
     if (gamefield[0][1] == gamefield[1][1] && gamefield[1][1] == gamefield[2][1] && gamefield[2][1] == gamefield[0][1]) {
@@ -157,7 +180,7 @@ function checkWinner() {
         document.getElementById('field2').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field5').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field8').classList.add(`playerwin${currentPlayer}`)
-            // winScreen();
+        gameEnded(winner);
         return
     }
     if (gamefield[0][2] == gamefield[1][2] && gamefield[1][2] == gamefield[2][2] && gamefield[2][2] == gamefield[0][2]) {
@@ -165,7 +188,7 @@ function checkWinner() {
         document.getElementById('field3').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field6').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field9').classList.add(`playerwin${currentPlayer}`)
-            // winScreen();
+        gameEnded(winner);
         return
     }
     if (gamefield[0][0] == gamefield[1][1] && gamefield[1][1] == gamefield[2][2] && gamefield[2][2] == gamefield[0][0]) {
@@ -173,7 +196,7 @@ function checkWinner() {
         document.getElementById('field1').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field5').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field9').classList.add(`playerwin${currentPlayer}`)
-            // winScreen();
+        gameEnded(winner);
         return
     }
     if (gamefield[2][0] == gamefield[1][1] && gamefield[1][1] == gamefield[0][2] && gamefield[0][2] == gamefield[2][0]) {
@@ -181,8 +204,36 @@ function checkWinner() {
         document.getElementById('field7').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field5').classList.add(`playerwin${currentPlayer}`)
         document.getElementById('field3').classList.add(`playerwin${currentPlayer}`)
-            // winScreen();
+        gameEnded(winner);
         return
     }
+    checkDraw();
+    if (gamedraw == 45) {
+        gamedrawEnded();
+    }
     return
+}
+
+function gamedrawEnded() {
+    let winnertext = document.getElementById('showCurPlayer');
+    winnertext.innerHTML = `<h1>Unentschieden! Keiner hat gewonnen!</h1>`;
+    for (let i = 1; i < 10; i++) {
+        let field = document.getElementById(`field${i}`);
+        field.classList.add("pe-none")
+    }
+}
+
+function checkDraw() {
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (gamefield[i][j].length !== 0) {
+                console.log("draw") //just to test the function, deleted soon
+                gamedraw += 1;
+            } else {
+                console.log("weiter") //just to test the function, deleted soon
+            }
+        }
+
+    }
+    console.log(gamedraw) //just to test the function, deleted soon
 }

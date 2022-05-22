@@ -23,8 +23,20 @@
     background-color: var(--playerwin2) !important;
 }
 
+.player1Text {
+    color: var(--playerwin1);
+}
+
+.player2Text {
+    color: var(--playerwin2);
+}
+
 .d-none {
     display: none;
+}
+
+.pe-none {
+    pointer-events: none;
 }
 
 .selectPlayer {
